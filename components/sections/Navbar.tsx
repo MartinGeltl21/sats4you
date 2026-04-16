@@ -37,7 +37,7 @@ export function Navbar() {
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
         scrolled
           ? "bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5"
-          : "bg-transparent"
+          : "bg-transparent max-md:opacity-0 max-md:pointer-events-none"
       )}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">

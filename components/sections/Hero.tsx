@@ -28,7 +28,7 @@ export function Hero() {
     <section id="hero" className="relative overflow-hidden">
       <AuroraBackground className="bg-[#0a0a0a] min-h-[100svh] lg:min-h-screen text-white items-start">
 
-        <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 pt-24 lg:pt-0 flex flex-col lg:flex-row items-center gap-10 sm:gap-12 lg:gap-16">
+        <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-24 lg:pt-8 flex flex-col lg:flex-row items-center gap-10 sm:gap-12 lg:gap-16">
 
           {/* Left: Text content */}
           <div className="flex-1 text-left">

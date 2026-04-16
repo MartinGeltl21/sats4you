@@ -95,8 +95,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
           )}
 
           {/* Header gradient blob */}
-          <CardItem
-            translateZ={20}
+          <div
             className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${meta.bgGradient} pointer-events-none`}
           />
 

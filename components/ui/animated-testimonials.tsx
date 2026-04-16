@@ -44,10 +44,10 @@ export const AnimatedTestimonials = ({
   const getRandomRotation = (index: number) => ROTATIONS[index] ?? 0;
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
+    <div className="mx-auto max-w-sm px-4 py-10 md:py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+      <div className="relative grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-20">
         <div>
-          <div className="relative h-80 w-full">
+          <div className="relative h-64 sm:h-80 w-full">
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -145,16 +145,18 @@ export const AnimatedTestimonials = ({
               ))}
             </motion.p>
           </motion.div>
-          <div className="flex gap-4 pt-12 md:pt-0">
+          <div className="flex gap-4 pt-8 md:pt-0">
             <button
               onClick={handlePrev}
-              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
+              aria-label="Vorheriges Testimonial"
+              className="group/button flex h-10 w-10 md:h-7 md:w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
             >
               <IconArrowLeft className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:rotate-12 dark:text-neutral-400" />
             </button>
             <button
               onClick={handleNext}
-              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
+              aria-label="Nächstes Testimonial"
+              className="group/button flex h-10 w-10 md:h-7 md:w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
             >
               <IconArrowRight className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:-rotate-12 dark:text-neutral-400" />
             </button>

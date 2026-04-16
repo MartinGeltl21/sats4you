@@ -212,13 +212,13 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
 
 export function Products() {
   return (
-    <section id="products" className="py-24 px-6 bg-[#0a0a0a]">
+    <section id="products" className="py-16 px-4 sm:py-24 sm:px-6 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <p className="text-sm font-semibold tracking-widest uppercase text-[#f7931a]/70 mb-4">
             Unsere Boxen
           </p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight">
             Für jedes Budget.
             <br />
             Für jeden Anlass.
@@ -226,7 +226,7 @@ export function Products() {
         </div>
 
         {/* Desktop Grid */}
-        <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -235,9 +235,9 @@ export function Products() {
         {/* Mobile Carousel */}
         <div className="sm:hidden">
           <Carousel opts={{ align: "start", loop: false }} className="w-full">
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-3">
               {products.map((product) => (
-                <CarouselItem key={product.id} className="pl-4 basis-[88%]">
+                <CarouselItem key={product.id} className="pl-3 basis-[88%]">
                   <ProductCard product={product} />
                 </CarouselItem>
               ))}

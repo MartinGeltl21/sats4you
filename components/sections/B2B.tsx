@@ -104,7 +104,7 @@ function ContactForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label htmlFor="name" className="text-white/70 text-sm">
             Name *
@@ -200,9 +200,9 @@ export function B2B() {
   );
 
   return (
-    <section id="b2b" className="py-20 px-6 bg-[#0d0d0d]">
+    <section id="b2b" className="py-16 px-4 sm:py-20 sm:px-6 bg-[#0d0d0d]">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 sm:gap-12 items-center">
           {/* Left */}
           <div>
             <p className="text-xs font-medium tracking-widest uppercase text-[#f7931a] mb-3">
@@ -281,7 +281,7 @@ export function B2B() {
       {/* Mobile: Drawer (Bottom Sheet) */}
       {isMobile && (
         <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerContent className="bg-[#111111] border-t border-[#222222] text-white px-6 pb-8">
+          <DrawerContent className="bg-[#111111] border-t border-[#222222] text-white px-4 sm:px-6 pb-8">
             <DrawerHeader className="px-0 pt-4 pb-2">
               <DrawerTitle className="text-xl font-bold text-white text-left">
                 Unternehmensanfrage

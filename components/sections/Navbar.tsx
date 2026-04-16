@@ -1,7 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 const links = [
   { label: "So funktioniert's", href: "#how-it-works" },
@@ -12,7 +19,6 @@ const links = [
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -21,7 +27,6 @@ export function Navbar() {
   }, []);
 
   const scrollTo = (href: string) => {
-    setOpen(false);
     const id = href.replace("#", "");
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -51,14 +56,14 @@ export function Navbar() {
             <button
               key={link.href}
               onClick={() => scrollTo(link.href)}
-              className="cursor-pointer px-4 py-2 text-sm text-white/60 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-150"
+              className="cursor-pointer px-4 py-2 text-sm text-white/60 hover:text-white rounded-lg hover:bg-white/5"
             >
               {link.label}
             </button>
           ))}
           <button
             onClick={() => scrollTo("#products")}
-            className="ml-3 cursor-pointer px-4 py-2 text-sm font-semibold rounded-lg text-[#0a0a0a] transition-all duration-150 hover:brightness-110"
+            className="ml-3 cursor-pointer px-4 py-2 text-sm font-semibold rounded-lg text-[#0a0a0a] hover:brightness-110"
             style={{
               background: "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
             }}
@@ -67,56 +72,57 @@ export function Navbar() {
           </button>
         </nav>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden cursor-pointer flex flex-col gap-1.5 p-2"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Menü öffnen"
-        >
-          <span
-            className={cn(
-              "block w-5 h-0.5 bg-white/70 transition-all duration-200",
-              open && "rotate-45 translate-y-2"
-            )}
-          />
-          <span
-            className={cn(
-              "block w-5 h-0.5 bg-white/70 transition-all duration-200",
-              open && "opacity-0"
-            )}
-          />
-          <span
-            className={cn(
-              "block w-5 h-0.5 bg-white/70 transition-all duration-200",
-              open && "-rotate-45 -translate-y-2"
-            )}
-          />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden bg-[#0a0a0a]/95 backdrop-blur-md border-t border-white/5 px-6 py-4 flex flex-col gap-2">
-          {links.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => scrollTo(link.href)}
-              className="cursor-pointer text-left px-3 py-2.5 text-sm text-white/70 hover:text-white rounded-lg hover:bg-white/5 transition-all"
-            >
-              {link.label}
-            </button>
-          ))}
-          <button
-            onClick={() => scrollTo("#products")}
-            className="mt-2 cursor-pointer px-4 py-2.5 text-sm font-semibold rounded-lg text-[#0a0a0a] text-center"
-            style={{
-              background: "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
-            }}
+        {/* Mobile: Sheet */}
+        <Sheet>
+          <SheetTrigger
+            className="md:hidden cursor-pointer p-2 text-white/70 hover:text-white transition-colors bg-transparent border-0"
+            aria-label="Menü öffnen"
           >
-            Jetzt schenken
-          </button>
-        </div>
-      )}
+            <Menu className="w-5 h-5" />
+          </SheetTrigger>
+
+          <SheetContent
+            side="right"
+            className="bg-[#0d0d0d] border-l border-white/5 w-72 flex flex-col p-0"
+            showCloseButton={false}
+          >
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+              <span className="flex items-center gap-2 font-bold text-white text-lg tracking-tight">
+                <span className="text-[#f7931a] text-xl">₿</span>
+                Sats4You
+              </span>
+              <SheetClose className="cursor-pointer text-white/40 hover:text-white transition-colors bg-transparent border-0 text-xl leading-none">
+                ✕
+              </SheetClose>
+            </div>
+
+            <nav className="flex flex-col gap-1 flex-1 px-4 pt-4">
+              {links.map((link) => (
+                <SheetClose
+                  key={link.href}
+                  onClick={() => scrollTo(link.href)}
+                  className="cursor-pointer text-left px-3 py-3 text-sm text-white/70 hover:text-white rounded-xl hover:bg-white/5 transition-all w-full bg-transparent border-0"
+                >
+                  {link.label}
+                </SheetClose>
+              ))}
+            </nav>
+
+            <div className="px-4 pb-6">
+              <SheetClose
+                onClick={() => scrollTo("#products")}
+                className="w-full cursor-pointer px-4 py-3 text-sm font-semibold rounded-xl text-[#0a0a0a] text-center hover:brightness-110 transition-all border-0"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
+                }}
+              >
+                Jetzt schenken
+              </SheetClose>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
   );
 }

@@ -1,22 +1,222 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
+import {
+  Zap,
+  Flame,
+  ShieldCheck,
+  Building2,
+  Check,
+  Info,
+  ArrowRight,
+} from "lucide-react";
 import { products } from "@/lib/data";
 
-export function Products() {
+const productMeta: Record<
+  string,
+  { icon: React.ElementType; color: string; bgGradient: string }
+> = {
+  starter: {
+    icon: Zap,
+    color: "#60a5fa",
+    bgGradient: "from-blue-500/10 to-transparent",
+  },
+  "orange-pill": {
+    icon: Flame,
+    color: "#f7931a",
+    bgGradient: "from-[#f7931a]/15 to-transparent",
+  },
+  sovereignty: {
+    icon: ShieldCheck,
+    color: "#a78bfa",
+    bgGradient: "from-violet-500/10 to-transparent",
+  },
+  corporate: {
+    icon: Building2,
+    color: "#34d399",
+    bgGradient: "from-emerald-500/10 to-transparent",
+  },
+};
+
+const featureTooltips: Record<string, string> = {
+  "Hardware Wallet (BitBox02 oder Jade)":
+    "Ein physisches Gerät, das Bitcoin offline sichert — der sicherste Weg zur Selbstverwahrung.",
+  "Seedor Backup-Lösung":
+    "Stahlplatte zum Eingravieren des Seed-Phrases — feuerfest und wasserdicht.",
+  "Custom Branding & Logo":
+    "Wir passen Verpackung und Karte komplett an euer Corporate Design an.",
+  "Bulk-Bestellungen ab 10 Stück":
+    "Staffelpreise ab 10 Einheiten. Je mehr, desto günstiger.",
+};
+
+function ProductCard({ product }: { product: (typeof products)[0] }) {
+  const meta = productMeta[product.id];
+  const Icon = meta.icon;
+
   const scrollToB2B = () => {
-    const el = document.getElementById("b2b");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("b2b")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
+    <CardContainer containerClassName="w-full h-full" className="w-full h-full">
+      <CardBody className="w-full h-full">
+        <Card
+          className={`relative flex flex-col h-full overflow-hidden border bg-[#0e0e0e] transition-colors duration-300 ${
+            product.highlight
+              ? "border-[#f7931a]/40 shadow-[0_0_50px_-12px_rgba(247,147,26,0.3)]"
+              : "border-white/8 hover:border-white/15"
+          }`}
+        >
+          {/* Top accent line */}
+          {product.highlight && (
+            <div
+              className="absolute top-0 left-0 right-0 h-[2px] z-10"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent 0%, #f7931a 50%, transparent 100%)",
+              }}
+            />
+          )}
+
+          {/* Header gradient blob */}
+          <CardItem
+            translateZ={20}
+            className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${meta.bgGradient} pointer-events-none`}
+          />
+
+          {/* Header */}
+          <CardItem translateZ={30} className="relative px-6 pt-7 pb-0 w-full">
+            <div className="flex items-start justify-between gap-3 mb-5">
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                style={{
+                  background: `${meta.color}18`,
+                  border: `1px solid ${meta.color}30`,
+                }}
+              >
+                <Icon className="w-5 h-5" style={{ color: meta.color }} />
+              </div>
+
+              {product.badge && (
+                <Badge
+                  className="shrink-0 text-[#0a0a0a] font-semibold text-xs px-2.5 py-1 border-0"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
+                  }}
+                >
+                  {product.badge}
+                </Badge>
+              )}
+            </div>
+
+            <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: meta.color }}>
+              {product.tagline}
+            </p>
+            <h3 className="text-xl font-bold text-white mb-3">{product.name}</h3>
+
+            <div className="mb-4">
+              <span
+                className="text-3xl font-extrabold tracking-tight"
+                style={{
+                  color: product.highlight ? "#f7931a" : "rgba(255,255,255,0.92)",
+                }}
+              >
+                {product.priceRange}
+              </span>
+            </div>
+
+            <p className="text-sm text-white/45 leading-relaxed mb-5">
+              {product.description}
+            </p>
+
+            <Separator className="bg-white/6" />
+          </CardItem>
+
+          {/* Feature list */}
+          <CardContent className="flex-1 px-6 pt-5 pb-4">
+            <ul className="space-y-2.5">
+              {product.items.map((item, i) => {
+                const tooltip = featureTooltips[item];
+                return (
+                  <li key={i} className="flex items-start gap-2.5 text-sm">
+                    <Check
+                      className="w-4 h-4 mt-0.5 shrink-0"
+                      style={{ color: meta.color }}
+                    />
+                    <span className="text-white/60 flex items-center gap-1.5 leading-snug">
+                      {item}
+                      {tooltip && (
+                        <Tooltip>
+                          <TooltipTrigger className="inline-flex cursor-help">
+                            <Info className="w-3.5 h-3.5 text-white/25 hover:text-white/60 shrink-0 transition-colors" />
+                          </TooltipTrigger>
+                          <TooltipContent side="top" className="max-w-52 text-xs">
+                            {tooltip}
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </CardContent>
+
+          {/* CTA */}
+          <CardFooter className="px-6 pb-6 pt-2">
+            <CardItem translateZ={50} className="w-full">
+              {product.id === "corporate" || !product.highlight ? (
+                <Button
+                  className="w-full font-semibold rounded-xl group transition-all duration-200 border-white/12 text-white/70 hover:text-white hover:border-white/25 hover:bg-white/5"
+                  variant="outline"
+                  onClick={product.id === "corporate" ? scrollToB2B : undefined}
+                >
+                  {product.cta}
+                  <ArrowRight className="w-4 h-4 ml-1.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                </Button>
+              ) : (
+                <Button
+                  className="w-full font-semibold rounded-xl text-[#0a0a0a] hover:brightness-110 shadow-lg shadow-[#f7931a]/20 transition-all duration-200 group"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
+                  }}
+                >
+                  {product.cta}
+                  <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform duration-200" />
+                </Button>
+              )}
+            </CardItem>
+          </CardFooter>
+        </Card>
+      </CardBody>
+    </CardContainer>
+  );
+}
+
+export function Products() {
+  return (
     <section id="products" className="py-24 px-6 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-sm font-medium tracking-widest uppercase text-[#f7931a] mb-4">
+          <p className="text-sm font-semibold tracking-widest uppercase text-[#f7931a]/70 mb-4">
             Unsere Boxen
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
@@ -26,119 +226,28 @@ export function Products() {
           </h2>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        {/* Desktop Grid */}
+        <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
           {products.map((product) => (
-            <Card
-              key={product.id}
-              className={`relative flex flex-col bg-[#111111] border transition-all duration-300 group overflow-hidden ${
-                product.highlight
-                  ? "border-[#f7931a]/50 shadow-[0_0_40px_-10px_rgba(247,147,26,0.25)]"
-                  : "border-[#222222] hover:border-[#f7931a]/30"
-              }`}
-            >
-              {/* Highlight top bar */}
-              {product.highlight && (
-                <div
-                  className="absolute top-0 left-0 right-0 h-0.5"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, #f7931a, transparent)",
-                  }}
-                />
-              )}
-
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <h3 className="text-lg font-bold text-white leading-tight">
-                    {product.name}
-                  </h3>
-                  {product.badge && (
-                    <Badge
-                      className="shrink-0 text-[#0a0a0a] font-semibold text-xs px-2 py-0.5"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
-                        border: "none",
-                      }}
-                    >
-                      {product.badge}
-                    </Badge>
-                  )}
-                </div>
-                <p
-                  className={`text-2xl font-bold ${
-                    product.highlight ? "text-[#f7931a]" : "text-white/90"
-                  }`}
-                >
-                  {product.priceRange}
-                </p>
-                <p className="text-xs font-medium text-white/40 uppercase tracking-wider mt-1">
-                  {product.tagline}
-                </p>
-              </CardHeader>
-
-              <CardContent className="flex flex-col flex-1 pt-0">
-                <p className="text-sm text-white/50 mb-5 leading-relaxed">
-                  {product.description}
-                </p>
-
-                {/* Items list */}
-                <ul className="space-y-2 mb-6 flex-1">
-                  {product.items.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <span className="text-[#f7931a] mt-0.5 shrink-0">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2.5}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.5 12.75l6 6 9-13.5"
-                          />
-                        </svg>
-                      </span>
-                      <span className="text-white/60">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                {product.id === "corporate" ? (
-                  <Button
-                    className="w-full font-semibold rounded-xl border-[#f7931a]/40 text-[#f7931a] hover:bg-[#f7931a]/10 hover:border-[#f7931a] transition-all duration-200"
-                    variant="outline"
-                    onClick={scrollToB2B}
-                  >
-                    {product.cta}
-                  </Button>
-                ) : (
-                  <Button
-                    className={`w-full font-semibold rounded-xl transition-all duration-200 ${
-                      product.highlight
-                        ? "text-[#0a0a0a] hover:brightness-110 shadow-md"
-                        : "border-[#f7931a]/40 text-[#f7931a] hover:bg-[#f7931a]/10 hover:border-[#f7931a]"
-                    }`}
-                    style={
-                      product.highlight
-                        ? {
-                            background:
-                              "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
-                          }
-                        : undefined
-                    }
-                    variant={product.highlight ? "default" : "outline"}
-                  >
-                    {product.cta}
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
+            <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+
+        {/* Mobile Carousel */}
+        <div className="sm:hidden">
+          <Carousel opts={{ align: "start", loop: false }} className="w-full">
+            <CarouselContent className="-ml-4">
+              {products.map((product) => (
+                <CarouselItem key={product.id} className="pl-4 basis-[88%]">
+                  <ProductCard product={product} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-center gap-3 mt-6">
+              <CarouselPrevious className="static translate-y-0 bg-[#111] border-[#333] text-white hover:bg-[#1a1a1a]" />
+              <CarouselNext className="static translate-y-0 bg-[#111] border-[#333] text-white hover:bg-[#1a1a1a]" />
+            </div>
+          </Carousel>
         </div>
       </div>
     </section>

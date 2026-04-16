@@ -18,6 +18,7 @@ export type FaqItem = {
 export type Occasion = {
   label: string
   emoji: string
+  category: "familie" | "beruf" | "feste"
 }
 
 export const products: Product[] = [
@@ -114,10 +115,18 @@ export const faqItems: FaqItem[] = [
 ]
 
 export const occasions: Occasion[] = [
-  { label: "Weihnachten", emoji: "🎄" },
-  { label: "Geburtstag", emoji: "🎂" },
-  { label: "Hochzeit", emoji: "💍" },
-  { label: "Geburt", emoji: "👶" },
-  { label: "Firmenjubiläum", emoji: "🏢" },
-  { label: "Valentinstag", emoji: "❤️" },
+  { label: "Geburtstag", emoji: "🎂", category: "familie" },
+  { label: "Hochzeit", emoji: "💍", category: "familie" },
+  { label: "Geburt", emoji: "👶", category: "familie" },
+  { label: "Valentinstag", emoji: "❤️", category: "familie" },
+  { label: "Taufe", emoji: "🕊️", category: "familie" },
+  { label: "Ruhestand", emoji: "🏖️", category: "familie" },
+  { label: "Firmenjubiläum", emoji: "🏢", category: "beruf" },
+  { label: "Beförderung", emoji: "🚀", category: "beruf" },
+  { label: "Teamgeschenk", emoji: "🤝", category: "beruf" },
+  { label: "Mitarbeiter-Onboarding", emoji: "🎯", category: "beruf" },
+  { label: "Weihnachten", emoji: "🎄", category: "feste" },
+  { label: "Ostern", emoji: "🐣", category: "feste" },
+  { label: "Silvester", emoji: "🎆", category: "feste" },
+  { label: "Muttertag", emoji: "🌸", category: "feste" },
 ]

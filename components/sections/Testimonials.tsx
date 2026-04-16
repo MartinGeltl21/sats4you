@@ -33,8 +33,8 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="py-24 bg-[#0a0a0a]">
-      <div className="text-center mb-4 px-6">
+    <section id="testimonials" className="py-16 sm:py-24 bg-[#0a0a0a]">
+      <div className="text-center mb-4 px-4 sm:px-6">
         <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-[#f7931a]/30 bg-[#f7931a]/5 text-sm text-[#f7931a] font-medium">
           <span className="w-1.5 h-1.5 rounded-full bg-[#f7931a]" />
           Echte Kunden. Echte Freude.

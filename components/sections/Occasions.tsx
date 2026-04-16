@@ -36,14 +36,14 @@ function OccasionGrid({
 
 export function Occasions() {
   return (
-    <section id="occasions" className="py-24 px-6 bg-[#0a0a0a]">
+    <section id="occasions" className="py-16 px-4 sm:py-24 sm:px-6 bg-[#0a0a0a]">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+        <div className="text-center mb-10 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
             Das Geschenk,{" "}
             <span className="text-[#f7931a]">das bleibt.</span>
           </h2>
-          <p className="text-lg text-white/40 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-white/40 max-w-xl mx-auto leading-relaxed">
             Bitcoin verliert keinen Wert durch Abnutzung — es ist das einzige
             Geschenk, das mit der Zeit besser werden kann.
           </p>
@@ -56,7 +56,7 @@ export function Occasions() {
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="rounded-lg px-5 py-2 text-sm font-medium text-white/50 data-[state=active]:text-[#0a0a0a] data-[state=active]:shadow-none transition-all"
+                  className="rounded-lg px-3 sm:px-5 py-2 text-sm font-medium text-white/50 data-[state=active]:text-[#0a0a0a] data-[state=active]:shadow-none transition-all"
                   style={
                     {
                       "--tw-data-active-bg":
@@ -90,10 +90,10 @@ export function Occasions() {
           </TabsContent>
         </Tabs>
 
-        <div className="text-center mt-12">
-          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl border border-[#f7931a]/20 bg-[#f7931a]/5">
+        <div className="text-center mt-10 sm:mt-12">
+          <div className="inline-flex items-center gap-3 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl border border-[#f7931a]/20 bg-[#f7931a]/5">
             <span className="text-[#f7931a] text-2xl font-bold">₿</span>
-            <p className="text-white/60 text-lg italic">
+            <p className="text-white/60 text-base sm:text-lg italic">
               &ldquo;Bitcoin ist das Geschenk, das bleibt.&rdquo;
             </p>
           </div>

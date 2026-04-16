@@ -51,14 +51,14 @@ const timelineData = steps.map((step) => {
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-[#080808] pb-32">
-      <div className="max-w-5xl mx-auto px-6 pt-24">
-        <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+    <section id="how-it-works" className="bg-[#080808] pb-20 sm:pb-32">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight">
           In drei Schritten zum
           <br />
           <span className="text-[#f7931a]">perfekten Geschenk.</span>
         </h2>
-        <p className="mt-4 text-white/40 text-lg max-w-md">
+        <p className="mt-4 text-white/40 text-base sm:text-lg max-w-md">
           Kein Bitcoin-Wissen nötig. Wir führen dich durch alles.
         </p>
       </div>

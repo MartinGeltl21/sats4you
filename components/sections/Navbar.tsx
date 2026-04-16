@@ -40,7 +40,7 @@ export function Navbar() {
           : "bg-transparent"
       )}
     >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <button
           onClick={() => scrollTo("#hero")}
@@ -83,7 +83,7 @@ export function Navbar() {
 
           <SheetContent
             side="right"
-            className="bg-[#0d0d0d] border-l border-white/5 w-72 flex flex-col p-0"
+            className="bg-[#0d0d0d] border-l border-white/5 w-[85vw] sm:w-72 flex flex-col p-0"
             showCloseButton={false}
           >
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">

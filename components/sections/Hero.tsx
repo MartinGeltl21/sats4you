@@ -26,13 +26,13 @@ export function Hero() {
 
   return (
     <section id="hero" className="relative overflow-hidden">
-      <AuroraBackground className="bg-[#0a0a0a] min-h-screen text-white items-start">
+      <AuroraBackground className="bg-[#0a0a0a] min-h-[100svh] lg:min-h-screen text-white items-start">
 
-        <div className="relative w-full max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-10 sm:gap-12 lg:gap-16">
 
           {/* Left: Text content */}
           <div className="flex-1 text-left">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.05] mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.05] mb-6">
               Das perfekte
               <br />
               <span
@@ -46,20 +46,20 @@ export function Hero() {
               </span>
             </h1>
 
-            <p className="text-xl sm:text-2xl text-white/60 font-light tracking-wide mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-white/60 font-light tracking-wide mb-4">
               Kuratiert. Persönlich. Unvergesslich.
             </p>
 
-            <p className="text-base sm:text-lg text-white/40 max-w-lg mb-12 leading-relaxed">
+            <p className="text-base sm:text-lg text-white/40 max-w-lg mb-8 sm:mb-12 leading-relaxed">
               Bitcoin als Geschenk — einfach, schön verpackt, für jeden Anlass.
               Vom Geburtstag bis zum Firmenjubiläum.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-start">
               <Button
                 size="lg"
                 onClick={() => scrollTo("products")}
-                className="text-base px-8 py-6 font-semibold rounded-xl text-[#0a0a0a] hover:brightness-110 transition-all duration-200 shadow-lg"
+                className="text-base px-8 py-6 font-semibold rounded-xl text-[#0a0a0a] hover:brightness-110 transition-all duration-200 shadow-lg w-full sm:w-auto"
                 style={{
                   background: "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
                 }}
@@ -70,13 +70,13 @@ export function Hero() {
                 size="lg"
                 variant="outline"
                 onClick={() => scrollTo("b2b")}
-                className="text-base px-8 py-6 font-semibold rounded-xl border-white/20 text-white/80 hover:bg-white/5 hover:border-[#f7931a]/50 hover:text-white transition-all duration-200"
+                className="text-base px-8 py-6 font-semibold rounded-xl border-white/20 text-white/80 hover:bg-white/5 hover:border-[#f7931a]/50 hover:text-white transition-all duration-200 w-full sm:w-auto"
               >
                 Für Unternehmen
               </Button>
             </div>
 
-            <div className="mt-12 flex flex-col items-start gap-3">
+            <div className="mt-10 sm:mt-12 flex flex-col items-start gap-3">
               <div className="flex items-center">
                 <AnimatedTooltip items={customers} />
               </div>
@@ -89,7 +89,7 @@ export function Hero() {
 
           {/* Right: 3D Gift image with Skeleton */}
           <div className="flex-1 flex items-center justify-center lg:justify-end">
-            <CardContainer containerClassName="py-0" className="w-full max-w-sm lg:max-w-md xl:max-w-lg">
+            <CardContainer containerClassName="py-0" className="w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg">
               <CardBody className="w-full">
                 <CardItem translateZ={60} className="w-full">
                   <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-[#f7931a]/10 ring-1 ring-white/10">

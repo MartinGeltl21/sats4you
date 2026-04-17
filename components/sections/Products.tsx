@@ -9,13 +9,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import {
   Zap,
@@ -232,21 +225,11 @@ export function Products() {
           ))}
         </div>
 
-        {/* Mobile Carousel */}
-        <div className="sm:hidden">
-          <Carousel opts={{ align: "start", loop: false }} className="w-full">
-            <CarouselContent className="-ml-3">
-              {products.map((product) => (
-                <CarouselItem key={product.id} className="pl-3 basis-[88%]">
-                  <ProductCard product={product} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex justify-center gap-3 mt-6">
-              <CarouselPrevious className="static translate-y-0 bg-[#111] border-[#333] text-white hover:bg-[#1a1a1a]" />
-              <CarouselNext className="static translate-y-0 bg-[#111] border-[#333] text-white hover:bg-[#1a1a1a]" />
-            </div>
-          </Carousel>
+        {/* Mobile Stack */}
+        <div className="sm:hidden flex flex-col gap-5">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       </div>
     </section>

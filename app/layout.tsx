@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
@@ -44,6 +45,7 @@ export default function RootLayout({
           {children}
           <Toaster position="bottom-right" richColors />
         </TooltipProvider>
+        <Analytics />
       </body>
     </html>
   );

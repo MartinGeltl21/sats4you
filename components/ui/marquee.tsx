@@ -14,12 +14,16 @@ export function Marquee({
   speed = 40,
   fadeWidth = "8rem",
   pauseOnHover = false,
-  fadeColor = "var(--color-base, #0a0a0a)",
+  fadeColor: _fadeColor = "var(--color-base, #0a0a0a)",
   ...props
 }: MarqueeProps) {
   return (
     <div
       className={cn("group relative w-full overflow-hidden", className)}
+      style={{
+        maskImage: `linear-gradient(to right, transparent, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent)`,
+        WebkitMaskImage: `linear-gradient(to right, transparent, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent)`,
+      }}
       {...props}
     >
       <div
@@ -34,21 +38,6 @@ export function Marquee({
           {children}
         </div>
       </div>
-
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-10"
-        style={{
-          width: fadeWidth,
-          background: `linear-gradient(to right, ${fadeColor}, transparent)`,
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 z-10"
-        style={{
-          width: fadeWidth,
-          background: `linear-gradient(to left, ${fadeColor}, transparent)`,
-        }}
-      />
     </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -22,27 +21,41 @@ import { products } from "@/lib/data";
 
 const productMeta: Record<
   string,
-  { icon: React.ElementType; color: string; bgGradient: string }
+  {
+    icon: React.ElementType;
+    color: string;
+    bgGradient: string;
+    btnBase: string;
+    btnHover: string;
+  }
 > = {
   starter: {
     icon: Zap,
     color: "#60a5fa",
     bgGradient: "from-blue-500/10 to-transparent",
+    btnBase: "border-blue-400/25 text-blue-400/70 bg-blue-500/[0.04]",
+    btnHover: "hover:border-blue-400/55 hover:text-blue-300 hover:bg-blue-500/[0.12]",
   },
   "orange-pill": {
     icon: Flame,
     color: "#f7931a",
     bgGradient: "from-[#f7931a]/15 to-transparent",
+    btnBase: "",
+    btnHover: "",
   },
   sovereignty: {
     icon: ShieldCheck,
     color: "#a78bfa",
     bgGradient: "from-violet-500/10 to-transparent",
+    btnBase: "border-violet-400/25 text-violet-400/70 bg-violet-500/[0.04]",
+    btnHover: "hover:border-violet-400/55 hover:text-violet-300 hover:bg-violet-500/[0.12]",
   },
   corporate: {
     icon: Building2,
     color: "#34d399",
     bgGradient: "from-emerald-500/10 to-transparent",
+    btnBase: "border-emerald-400/25 text-emerald-400/70 bg-emerald-500/[0.04]",
+    btnHover: "hover:border-emerald-400/55 hover:text-emerald-300 hover:bg-emerald-500/[0.12]",
   },
 };
 
@@ -106,8 +119,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
             <Badge
               className="shrink-0 text-[#0a0a0a] font-semibold text-xs px-2.5 py-1 border-0"
               style={{
-                background:
-                  "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
+                background: "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
               }}
             >
               {product.badge}
@@ -115,7 +127,10 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
           )}
         </div>
 
-        <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: meta.color }}>
+        <p
+          className="text-xs font-semibold uppercase tracking-widest mb-1.5"
+          style={{ color: meta.color }}
+        >
           {product.tagline}
         </p>
         <h3 className="text-xl font-bold text-white mb-3">{product.name}</h3>
@@ -169,27 +184,23 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
       </CardContent>
 
       {/* CTA */}
-      <CardFooter className="px-6 pb-6 pt-2 flex justify-center">
-        {product.id === "corporate" || !product.highlight ? (
-          <Button
-            className="w-full font-semibold rounded-xl group transition-all duration-200 border border-white/12 text-white/60 bg-transparent hover:text-white hover:border-white/30 hover:bg-white/8 active:scale-[0.98]"
-            variant="outline"
+      <CardFooter className="px-6 pb-6 pt-2">
+        {product.highlight ? (
+          <button
+            className="w-full py-3 px-5 rounded-xl font-semibold text-sm text-[#0a0a0a] flex items-center justify-center gap-2 transition-all duration-200 group shadow-lg shadow-[#f7931a]/25 hover:shadow-[#f7931a]/50 hover:brightness-110 active:scale-[0.98] cursor-pointer"
+            style={{ background: "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)" }}
+          >
+            {product.cta}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
+          </button>
+        ) : (
+          <button
+            className={`w-full py-3 px-5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border transition-all duration-200 group active:scale-[0.98] cursor-pointer ${meta.btnBase} ${meta.btnHover}`}
             onClick={product.id === "corporate" ? scrollToB2B : undefined}
           >
             {product.cta}
-            <ArrowRight className="w-4 h-4 ml-1.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-          </Button>
-        ) : (
-          <Button
-            className="w-full font-semibold rounded-xl text-[#0a0a0a] transition-all duration-200 group shadow-lg shadow-[#f7931a]/25 hover:shadow-[#f7931a]/45 hover:brightness-110 active:scale-[0.98]"
-            style={{
-              background:
-                "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
-            }}
-          >
-            {product.cta}
-            <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform duration-200" />
-          </Button>
+            <ArrowRight className="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+          </button>
         )}
       </CardFooter>
     </Card>

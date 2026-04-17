@@ -9,7 +9,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import {
   Zap,
   Flame,
@@ -67,139 +66,133 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
   };
 
   return (
-    <CardContainer containerClassName="w-full h-full" className="w-full h-full">
-      <CardBody className="w-full h-full">
-        <Card
-          className={`relative flex flex-col h-full overflow-hidden border bg-[#0e0e0e] transition-colors duration-300 ${
-            product.highlight
-              ? "border-[#f7931a]/40 shadow-[0_0_50px_-12px_rgba(247,147,26,0.3)]"
-              : "border-white/8 hover:border-white/15"
-          }`}
-        >
-          {/* Top accent line */}
-          {product.highlight && (
-            <div
-              className="absolute top-0 left-0 right-0 h-[2px] z-10"
+    <Card
+      className={`relative flex flex-col h-full overflow-hidden border bg-[#0e0e0e] transition-all duration-300 ${
+        product.highlight
+          ? "border-[#f7931a]/40 shadow-[0_0_50px_-12px_rgba(247,147,26,0.3)]"
+          : "border-white/8 hover:border-white/15"
+      }`}
+    >
+      {/* Top accent line */}
+      {product.highlight && (
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px] z-10"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, #f7931a 50%, transparent 100%)",
+          }}
+        />
+      )}
+
+      {/* Header gradient blob */}
+      <div
+        className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${meta.bgGradient} pointer-events-none`}
+      />
+
+      {/* Header */}
+      <div className="relative px-6 pt-7 pb-0 w-full">
+        <div className="flex items-start justify-between gap-3 mb-5">
+          <div
+            className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+            style={{
+              background: `${meta.color}18`,
+              border: `1px solid ${meta.color}30`,
+            }}
+          >
+            <Icon className="w-5 h-5" style={{ color: meta.color }} />
+          </div>
+
+          {product.badge && (
+            <Badge
+              className="shrink-0 text-[#0a0a0a] font-semibold text-xs px-2.5 py-1 border-0"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent 0%, #f7931a 50%, transparent 100%)",
+                  "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
               }}
-            />
+            >
+              {product.badge}
+            </Badge>
           )}
+        </div>
 
-          {/* Header gradient blob */}
-          <div
-            className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${meta.bgGradient} pointer-events-none`}
-          />
+        <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: meta.color }}>
+          {product.tagline}
+        </p>
+        <h3 className="text-xl font-bold text-white mb-3">{product.name}</h3>
 
-          {/* Header */}
-          <CardItem translateZ={30} className="relative px-6 pt-7 pb-0 w-full">
-            <div className="flex items-start justify-between gap-3 mb-5">
-              <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                style={{
-                  background: `${meta.color}18`,
-                  border: `1px solid ${meta.color}30`,
-                }}
-              >
-                <Icon className="w-5 h-5" style={{ color: meta.color }} />
-              </div>
+        <div className="mb-4">
+          <span
+            className="text-3xl font-extrabold tracking-tight"
+            style={{
+              color: product.highlight ? "#f7931a" : "rgba(255,255,255,0.92)",
+            }}
+          >
+            {product.priceRange}
+          </span>
+        </div>
 
-              {product.badge && (
-                <Badge
-                  className="shrink-0 text-[#0a0a0a] font-semibold text-xs px-2.5 py-1 border-0"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
-                  }}
-                >
-                  {product.badge}
-                </Badge>
-              )}
-            </div>
+        <p className="text-sm text-white/45 leading-relaxed mb-5">
+          {product.description}
+        </p>
 
-            <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: meta.color }}>
-              {product.tagline}
-            </p>
-            <h3 className="text-xl font-bold text-white mb-3">{product.name}</h3>
+        <Separator className="bg-white/6" />
+      </div>
 
-            <div className="mb-4">
-              <span
-                className="text-3xl font-extrabold tracking-tight"
-                style={{
-                  color: product.highlight ? "#f7931a" : "rgba(255,255,255,0.92)",
-                }}
-              >
-                {product.priceRange}
-              </span>
-            </div>
+      {/* Feature list */}
+      <CardContent className="flex-1 px-6 pt-5 pb-4">
+        <ul className="space-y-2.5">
+          {product.items.map((item, i) => {
+            const tooltip = featureTooltips[item];
+            return (
+              <li key={i} className="flex items-start gap-2.5 text-sm">
+                <Check
+                  className="w-4 h-4 mt-0.5 shrink-0"
+                  style={{ color: meta.color }}
+                />
+                <span className="text-white/60 flex items-center gap-1.5 leading-snug">
+                  {item}
+                  {tooltip && (
+                    <Tooltip>
+                      <TooltipTrigger className="inline-flex cursor-help">
+                        <Info className="w-3.5 h-3.5 text-white/25 hover:text-white/60 shrink-0 transition-colors" />
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-52 text-xs">
+                        {tooltip}
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </CardContent>
 
-            <p className="text-sm text-white/45 leading-relaxed mb-5">
-              {product.description}
-            </p>
-
-            <Separator className="bg-white/6" />
-          </CardItem>
-
-          {/* Feature list */}
-          <CardContent className="flex-1 px-6 pt-5 pb-4">
-            <ul className="space-y-2.5">
-              {product.items.map((item, i) => {
-                const tooltip = featureTooltips[item];
-                return (
-                  <li key={i} className="flex items-start gap-2.5 text-sm">
-                    <Check
-                      className="w-4 h-4 mt-0.5 shrink-0"
-                      style={{ color: meta.color }}
-                    />
-                    <span className="text-white/60 flex items-center gap-1.5 leading-snug">
-                      {item}
-                      {tooltip && (
-                        <Tooltip>
-                          <TooltipTrigger className="inline-flex cursor-help">
-                            <Info className="w-3.5 h-3.5 text-white/25 hover:text-white/60 shrink-0 transition-colors" />
-                          </TooltipTrigger>
-                          <TooltipContent side="top" className="max-w-52 text-xs">
-                            {tooltip}
-                          </TooltipContent>
-                        </Tooltip>
-                      )}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </CardContent>
-
-          {/* CTA */}
-          <CardFooter className="px-6 pb-6 pt-2">
-            <CardItem translateZ={50} className="w-full">
-              {product.id === "corporate" || !product.highlight ? (
-                <Button
-                  className="w-full font-semibold rounded-xl group transition-all duration-200 border-white/12 text-white/70 hover:text-white hover:border-white/25 hover:bg-white/5"
-                  variant="outline"
-                  onClick={product.id === "corporate" ? scrollToB2B : undefined}
-                >
-                  {product.cta}
-                  <ArrowRight className="w-4 h-4 ml-1.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Button>
-              ) : (
-                <Button
-                  className="w-full font-semibold rounded-xl text-[#0a0a0a] hover:brightness-110 shadow-lg shadow-[#f7931a]/20 transition-all duration-200 group"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
-                  }}
-                >
-                  {product.cta}
-                  <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform duration-200" />
-                </Button>
-              )}
-            </CardItem>
-          </CardFooter>
-        </Card>
-      </CardBody>
-    </CardContainer>
+      {/* CTA */}
+      <CardFooter className="px-6 pb-6 pt-2 flex justify-center">
+        {product.id === "corporate" || !product.highlight ? (
+          <Button
+            className="w-full font-semibold rounded-xl group transition-all duration-200 border border-white/12 text-white/60 bg-transparent hover:text-white hover:border-white/30 hover:bg-white/8 active:scale-[0.98]"
+            variant="outline"
+            onClick={product.id === "corporate" ? scrollToB2B : undefined}
+          >
+            {product.cta}
+            <ArrowRight className="w-4 h-4 ml-1.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+          </Button>
+        ) : (
+          <Button
+            className="w-full font-semibold rounded-xl text-[#0a0a0a] transition-all duration-200 group shadow-lg shadow-[#f7931a]/25 hover:shadow-[#f7931a]/45 hover:brightness-110 active:scale-[0.98]"
+            style={{
+              background:
+                "linear-gradient(135deg, #f7931a 0%, #d4a017 100%)",
+            }}
+          >
+            {product.cta}
+            <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform duration-200" />
+          </Button>
+        )}
+      </CardFooter>
+    </Card>
   );
 }
 

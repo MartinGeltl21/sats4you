@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
+import { CompanyMarquee } from "@/components/sections/CompanyMarquee";
 
 const customers = [
   { id: 1, name: "Laura M.",    designation: "München",  image: "https://i.pravatar.cc/100?img=47" },
@@ -28,7 +29,9 @@ export function Hero() {
     <section id="hero" className="relative overflow-hidden">
       <AuroraBackground className="bg-[#0a0a0a] min-h-[100svh] lg:min-h-screen text-white items-start">
 
-        <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 pt-20 md:pt-24 lg:pt-16 pb-8 flex flex-col lg:flex-row items-center gap-10 sm:gap-12 lg:gap-16">
+        <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 pt-20 md:pt-24 lg:pt-16 pb-8 flex flex-col">
+
+          <div className="flex flex-col lg:flex-row items-center gap-10 sm:gap-12 lg:gap-16">
 
           {/* Left: Text content */}
           <div className="flex-1 text-left">
@@ -112,6 +115,12 @@ export function Hero() {
                 </CardItem>
               </CardBody>
             </CardContainer>
+          </div>
+
+          </div>
+
+          <div className="w-full mt-12 sm:mt-16 lg:mt-12">
+            <CompanyMarquee />
           </div>
 
         </div>

@@ -199,7 +199,10 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
             onClick={product.id === "corporate" ? scrollToB2B : undefined}
           >
             {product.cta}
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
+            <ArrowRight
+              className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
+              style={{ color: meta.color }}
+            />
           </button>
         )}
       </CardFooter>

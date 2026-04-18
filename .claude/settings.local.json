@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p C:/Entwicklung/sats4you-2/src/components C:/Entwicklung/sats4you-2/src/styles C:/Entwicklung/sats4you-2/public)",
+      "Bash(mv C:/Entwicklung/sats4you-2/hero-video.mp4 C:/Entwicklung/sats4you-2/public/hero-video.mp4)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

@@ -2,12 +2,33 @@ import { type FormEvent, useState } from 'react';
 import { Palette, Layers, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import SectionHeading from './SectionHeading';
-import { useInView } from '../../lib/useInView';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 
 const SELLING_POINTS = [
   {
@@ -30,19 +51,69 @@ const SELLING_POINTS = [
   },
 ];
 
-export default function B2B() {
-  const [open, setOpen] = useState(false);
-
+function ContactForm({ onSuccess }: { onSuccess: () => void }) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    onSuccess();
     toast.success('Anfrage erhalten!', {
       description: 'Wir melden uns innerhalb von 24 Stunden bei dir.',
     });
-    setOpen(false);
   };
 
   return (
-    <section id="b2b" className="relative z-10 bg-white py-32 md:py-48 px-6 border-t border-black/5">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4 px-6 pb-6 md:p-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="b2b-name">Name</Label>
+          <Input id="b2b-name" name="name" required placeholder="Max Mustermann" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="b2b-company">Firma</Label>
+          <Input id="b2b-company" name="company" required placeholder="Acme GmbH" />
+        </div>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="b2b-email">E-Mail</Label>
+        <Input id="b2b-email" name="email" type="email" required placeholder="max@acme.de" />
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="b2b-quantity">Menge</Label>
+        <Select name="quantity" required>
+          <SelectTrigger id="b2b-quantity">
+            <SelectValue placeholder="Bitte wählen" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="10-25">10–25 Boxen</SelectItem>
+            <SelectItem value="26-50">26–50 Boxen</SelectItem>
+            <SelectItem value="51-100">51–100 Boxen</SelectItem>
+            <SelectItem value="100+">Über 100 Boxen</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="b2b-message">Nachricht (optional)</Label>
+        <Textarea
+          id="b2b-message"
+          name="message"
+          placeholder="Anlass, Zeitrahmen, besondere Wünsche..."
+        />
+      </div>
+      <Button type="submit" className="mt-2 w-full">
+        Anfrage senden
+      </Button>
+    </form>
+  );
+}
+
+export default function B2B() {
+  const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  return (
+    <section
+      id="b2b"
+      className="relative z-10 bg-white py-32 md:py-48 px-6 border-t border-black/5"
+    >
       <div className="max-w-5xl mx-auto">
         <SectionHeading
           kicker="Für Unternehmen"
@@ -54,114 +125,60 @@ export default function B2B() {
           subtitle="Bitcoin als Firmengeschenk ist unvergesslich. Kein Kugelschreiber. Kein Obstkorb. Etwas, das wirklich bleibt."
         />
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SELLING_POINTS.map((p, i) => (
-            <SellingPoint key={p.title} point={p} index={i} />
-          ))}
-        </div>
-
-        <div className="mt-20 flex justify-center">
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <button
-                type="button"
-                className="rounded-full bg-black text-white px-14 py-5 text-base transition-transform hover:scale-[1.03]"
-              >
-                Jetzt anfragen
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Firmenanfrage stellen</DialogTitle>
-                <DialogDescription>
-                  Erzähl uns kurz von deinem Vorhaben. Wir melden uns innerhalb von 24 Stunden.
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="b2b-name">Name</Label>
-                    <Input id="b2b-name" name="name" required placeholder="Max Mustermann" />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="b2b-company">Firma</Label>
-                    <Input id="b2b-company" name="company" required placeholder="Acme GmbH" />
-                  </div>
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {SELLING_POINTS.map((p) => {
+            const Icon = p.icon;
+            return (
+              <Card key={p.title} className="items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/5">
+                  <Icon className="h-5 w-5 text-black" strokeWidth={1.5} />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="b2b-email">E-Mail</Label>
-                  <Input
-                    id="b2b-email"
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="max@acme.de"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="b2b-quantity">Menge</Label>
-                  <Select name="quantity" required>
-                    <SelectTrigger id="b2b-quantity">
-                      <SelectValue placeholder="Bitte wählen" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="10-25">10–25 Boxen</SelectItem>
-                      <SelectItem value="26-50">26–50 Boxen</SelectItem>
-                      <SelectItem value="51-100">51–100 Boxen</SelectItem>
-                      <SelectItem value="100+">Über 100 Boxen</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="b2b-message">Nachricht (optional)</Label>
-                  <Textarea
-                    id="b2b-message"
-                    name="message"
-                    placeholder="Anlass, Zeitrahmen, besondere Wünsche..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="mt-2 rounded-full bg-black text-white px-8 py-3.5 text-sm transition-transform hover:scale-[1.02]"
+                <h3
+                  className="font-display text-2xl sm:text-3xl text-black"
+                  style={{ letterSpacing: '-0.5px' }}
                 >
-                  Anfrage senden
-                </button>
-              </form>
-            </DialogContent>
-          </Dialog>
+                  {p.title}
+                </h3>
+                <p className="font-sans text-sm text-[#6F6F6F] leading-relaxed">{p.description}</p>
+              </Card>
+            );
+          })}
+        </div>
+
+        <div className="mt-16 flex justify-center">
+          <Button size="lg" onClick={() => setOpen(true)}>
+            Jetzt anfragen
+          </Button>
         </div>
       </div>
-    </section>
-  );
-}
 
-function SellingPoint({
-  point,
-  index,
-}: {
-  point: (typeof SELLING_POINTS)[number];
-  index: number;
-}) {
-  const Icon = point.icon;
-  const { ref, inView } = useInView<HTMLDivElement>();
-  return (
-    <div
-      ref={ref}
-      className={`flex flex-col items-start gap-4 rounded-3xl border border-black/10 bg-white p-8 ${
-        inView ? 'reveal-shown' : 'reveal-pending'
-      }`}
-      style={{ animationDelay: `${index * 0.1}s` }}
-    >
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/5">
-        <Icon className="h-5 w-5 text-black" strokeWidth={1.5} />
-      </div>
-      <h3
-        className="font-display text-2xl sm:text-3xl text-black"
-        style={{ letterSpacing: '-0.5px' }}
-      >
-        {point.title}
-      </h3>
-      <p className="font-sans text-sm text-[#6F6F6F] leading-relaxed">{point.description}</p>
-    </div>
+      {!isMobile && (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Firmenanfrage stellen</DialogTitle>
+              <DialogDescription>
+                Erzähl uns kurz von deinem Vorhaben. Wir melden uns innerhalb von 24 Stunden.
+              </DialogDescription>
+            </DialogHeader>
+            <ContactForm onSuccess={() => setOpen(false)} />
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {isMobile && (
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Firmenanfrage stellen</DrawerTitle>
+              <DrawerDescription>
+                Erzähl uns kurz von deinem Vorhaben. Wir melden uns innerhalb von 24 Stunden.
+              </DrawerDescription>
+            </DrawerHeader>
+            <ContactForm onSuccess={() => setOpen(false)} />
+          </DrawerContent>
+        </Drawer>
+      )}
+    </section>
   );
 }

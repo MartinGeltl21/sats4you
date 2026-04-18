@@ -1,6 +1,7 @@
 import HeroSection from './components/HeroSection';
 import Navigation from './components/Navigation';
 import VideoBackground from './components/VideoBackground';
+import CompanyMarquee from './components/sections/CompanyMarquee';
 import HowItWorks from './components/sections/HowItWorks';
 import Products from './components/sections/Products';
 import Occasions from './components/sections/Occasions';
@@ -18,6 +19,7 @@ export default function App() {
         <Navigation />
         <HeroSection />
       </div>
+      <CompanyMarquee />
       <HowItWorks />
       <Products />
       <Occasions />

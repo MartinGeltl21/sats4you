@@ -1,10 +1,18 @@
-import { faqItems } from '../../lib/data';
+import { faqItems } from '@/lib/data';
 import SectionHeading from './SectionHeading';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 export default function FAQ() {
   return (
-    <section id="faq" className="relative z-10 bg-white py-32 md:py-48 px-6 border-t border-black/5">
+    <section
+      id="faq"
+      className="relative z-10 bg-white py-32 md:py-48 px-6 border-t border-black/5"
+    >
       <div className="max-w-3xl mx-auto">
         <SectionHeading
           kicker="FAQ"

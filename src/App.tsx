@@ -10,11 +10,13 @@ import B2B from './components/sections/B2B';
 import FAQ from './components/sections/FAQ';
 import Footer from './components/sections/Footer';
 import { Toaster } from './components/ui/sonner';
+import { useLenis } from './lib/useLenis';
 
 export default function App() {
+  useLenis();
   return (
-    <div className="relative min-h-screen w-full bg-background overflow-x-hidden">
-      <div className="relative">
+    <div className="relative min-h-screen w-full bg-background">
+      <div className="relative min-h-dvh">
         <VideoBackground />
         <Navigation />
         <HeroSection />

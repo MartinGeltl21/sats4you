@@ -48,7 +48,10 @@ const timelineData = STEPS.map((step) => {
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative z-10 bg-white py-32 md:py-48 px-6">
+    <section
+      id="how-it-works"
+      className="relative z-10 bg-white pt-12 pb-32 px-6 md:pt-16 md:pb-48"
+    >
       <div className="max-w-7xl mx-auto">
         <SectionHeading
           kicker="So funktioniert's"

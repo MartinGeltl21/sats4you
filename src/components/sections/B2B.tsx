@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useIsMobile } from '@/hooks/use-is-mobile';
+import { Reveal } from '@/components/ui/reveal';
 
 const SELLING_POINTS = [
   {
@@ -126,30 +127,32 @@ export default function B2B() {
         />
 
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {SELLING_POINTS.map((p) => {
+          {SELLING_POINTS.map((p, i) => {
             const Icon = p.icon;
             return (
-              <Card key={p.title} className="items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/5">
-                  <Icon className="h-5 w-5 text-black" strokeWidth={1.5} />
-                </div>
-                <h3
-                  className="font-display text-2xl sm:text-3xl text-black"
-                  style={{ letterSpacing: '-0.5px' }}
-                >
-                  {p.title}
-                </h3>
-                <p className="font-sans text-sm text-[#6F6F6F] leading-relaxed">{p.description}</p>
-              </Card>
+              <Reveal key={p.title} delay={i * 0.08} className="h-full">
+                <Card className="items-start gap-4 h-full">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/5">
+                    <Icon className="h-5 w-5 text-black" strokeWidth={1.5} />
+                  </div>
+                  <h3
+                    className="font-display text-2xl sm:text-3xl text-black"
+                    style={{ letterSpacing: '-0.5px' }}
+                  >
+                    {p.title}
+                  </h3>
+                  <p className="font-sans text-sm text-[#6F6F6F] leading-relaxed">{p.description}</p>
+                </Card>
+              </Reveal>
             );
           })}
         </div>
 
-        <div className="mt-16 flex justify-center">
+        <Reveal as="div" className="mt-16 flex justify-center" delay={0.1}>
           <Button size="lg" onClick={() => setOpen(true)}>
             Jetzt anfragen
           </Button>
-        </div>
+        </Reveal>
       </div>
 
       {!isMobile && (

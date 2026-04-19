@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Reveal } from '@/components/ui/reveal';
 
 export default function FAQ() {
   return (
@@ -23,14 +24,16 @@ export default function FAQ() {
           }
         />
 
-        <Accordion type="single" collapsible className="mt-16 w-full">
-          {faqItems.map((item, i) => (
-            <AccordionItem key={item.question} value={`item-${i}`}>
-              <AccordionTrigger>{item.question}</AccordionTrigger>
-              <AccordionContent>{item.answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <Reveal as="div" className="mt-16 w-full">
+          <Accordion type="single" collapsible className="w-full">
+            {faqItems.map((item, i) => (
+              <AccordionItem key={item.question} value={`item-${i}`}>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>{item.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
       </div>
     </section>
   );

@@ -29,12 +29,12 @@ export default function CompanyMarquee() {
   return (
     <section
       aria-label="Vertrauen aus Tech und Bitcoin"
-      className="relative z-10 bg-white py-16 md:py-20 px-6 border-t border-black/5"
+      className="relative z-10 bg-white pt-10 pb-10 md:pt-12 md:pb-14 px-6 border-t border-black/5"
     >
-      <p className="text-center font-sans text-xs uppercase tracking-[0.25em] text-[#6F6F6F] mb-8">
+      <p className="text-center font-sans text-xs uppercase tracking-[0.25em] text-[#6F6F6F] mb-9 md:mb-10">
         Vertrauen aus Tech &amp; Bitcoin
       </p>
-      <Marquee speed={45} fadeColor="#FFFFFF">
+      <Marquee speed={32} fadeColor="#FFFFFF">
         {LOGOS.map(({ Icon, alt }) => (
           <div
             key={alt}

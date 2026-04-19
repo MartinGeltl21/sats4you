@@ -45,7 +45,7 @@ export default function VideoBackground() {
     <div className="absolute inset-0 z-0 overflow-hidden">
       <video
         ref={videoRef}
-        src="/hero-video.mp4"
+        src="/hero-video.webm"
         muted
         playsInline
         autoPlay

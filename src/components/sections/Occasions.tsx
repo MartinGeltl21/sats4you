@@ -1,6 +1,7 @@
 import SectionHeading from './SectionHeading';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { occasions, type Occasion } from '@/lib/data';
+import { Reveal } from '@/components/ui/reveal';
 
 const TABS = [
   { value: 'alle', label: 'Alle' },
@@ -46,16 +47,17 @@ export default function Occasions() {
           subtitle="Bitcoin verliert keinen Wert durch Abnutzung — es ist das einzige Geschenk, das mit der Zeit besser werden kann."
         />
 
-        <Tabs defaultValue="alle" className="mt-16 md:mt-20 w-full">
-          <div className="flex justify-center mb-10">
-            <TabsList>
-              {TABS.map((t) => (
-                <TabsTrigger key={t.value} value={t.value}>
-                  {t.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
+        <Reveal as="div" className="mt-16 md:mt-20 w-full">
+          <Tabs defaultValue="alle" className="w-full">
+            <div className="flex justify-center mb-10">
+              <TabsList>
+                {TABS.map((t) => (
+                  <TabsTrigger key={t.value} value={t.value}>
+                    {t.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
           <TabsContent value="alle">
             <OccasionGrid items={occasions} />
@@ -69,13 +71,14 @@ export default function Occasions() {
           <TabsContent value="feste">
             <OccasionGrid items={occasions.filter((o) => o.category === 'feste')} />
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </Reveal>
 
-        <div className="mt-14 flex justify-center">
+        <Reveal as="div" className="mt-14 flex justify-center" delay={0.1}>
           <p className="font-display text-2xl md:text-3xl text-black italic max-w-xl text-center leading-snug">
             „Bitcoin ist das Geschenk, das bleibt.“
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

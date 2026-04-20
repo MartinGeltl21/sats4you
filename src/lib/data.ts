@@ -1,3 +1,10 @@
+export type ProductTheme = {
+  accent: string;
+  accentHeader: string;
+  accentLight: string;
+  accentMuted: string;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -8,6 +15,7 @@ export type Product = {
   cta: string;
   badge?: string;
   highlight?: boolean;
+  theme: ProductTheme;
 };
 
 export type FaqItem = {
@@ -29,6 +37,13 @@ export type Testimonial = {
   avatar: string;
 };
 
+export const themes: Record<string, ProductTheme> = {
+  starter:       { accent: '#F59E0B', accentHeader: '#F59E0B', accentLight: '#FEF3C7', accentMuted: '#FDE68A' },
+  'orange-pill': { accent: '#F7931A', accentHeader: '#F7931A', accentLight: '#FFEDD5', accentMuted: '#FED7AA' },
+  sovereignty:   { accent: '#D97706', accentHeader: '#D97706', accentLight: '#FDE68A', accentMuted: '#FCD34D' },
+  corporate:     { accent: '#1E3A5F', accentHeader: '#1E3A5F', accentLight: '#E0E8FF', accentMuted: '#C7D2FE' },
+};
+
 export const products: Product[] = [
   {
     id: 'starter',
@@ -40,9 +55,9 @@ export const products: Product[] = [
       'Bitcoin-Gutschein',
       'Erklär-Booklet',
       'Personalisierte Grußkarte',
-      'Sats4You Sticker',
     ],
     cta: 'Vorbestellen',
+    theme: themes.starter,
   },
   {
     id: 'orange-pill',
@@ -54,12 +69,12 @@ export const products: Product[] = [
       'Bitcoin-Gutschein',
       'Bitcoin-Buch (kuratiert)',
       'Premium-Verpackung',
-      'Bitcoin-Deko-Münze',
       'Personalisierte Grußkarte',
     ],
     cta: 'Vorbestellen',
     badge: 'Bestseller',
     highlight: true,
+    theme: themes['orange-pill'],
   },
   {
     id: 'sovereignty',
@@ -72,10 +87,9 @@ export const products: Product[] = [
       'Hardware Wallet (BitBox02 oder Jade)',
       'Seedor Backup-Lösung',
       'Schritt-für-Schritt-Anleitung',
-      'Bitcoin-Buch',
-      'Premium-Verpackung',
     ],
     cta: 'Vorbestellen',
+    theme: themes.sovereignty,
   },
   {
     id: 'corporate',
@@ -89,9 +103,9 @@ export const products: Product[] = [
       'Bulk-Bestellungen ab 10 Stück',
       'Persönliche Beratung',
       'Individuelle Inhalte',
-      'Eigene Grußkarten',
     ],
     cta: 'Anfragen',
+    theme: themes.corporate,
   },
 ];
 

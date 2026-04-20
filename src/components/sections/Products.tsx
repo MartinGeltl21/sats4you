@@ -18,6 +18,14 @@ const ICONS: Record<string, typeof Zap> = {
   corporate: Building2,
 };
 
+function hexToRgba(hex: string, alpha: number) {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 export default function Products() {
   const prefersReduced = useReducedMotion();
 
@@ -65,6 +73,8 @@ function ProductsGrid() {
   );
 }
 
+const PAUSE_AFTER_LAND = 0.5;
+
 function ProductsPinTrack() {
   const trackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -72,15 +82,31 @@ function ProductsPinTrack() {
     offset: ['start start', 'end end'],
   });
   const n = products.length;
-  const x = useTransform(scrollYProgress, [0, 1], ['0vw', `-${(n - 1) * 100}vw`]);
+  const landProgress = n / (n + PAUSE_AFTER_LAND);
+  const cardsProgress = useTransform(
+    scrollYProgress,
+    [0, landProgress],
+    [0, 1],
+    { clamp: true },
+  );
+
+  const warmTint = hexToRgba('#FEF3C7', 0.55);
+  const bgColor = useTransform(
+    scrollYProgress,
+    [0, 0.12, 0.85, 1],
+    ['rgba(255, 255, 255, 1)', warmTint, warmTint, 'rgba(255, 255, 255, 1)'],
+  );
 
   return (
     <div
       ref={trackRef}
       className="relative"
-      style={{ height: `${n * 100}vh` }}
+      style={{ height: `${(n + PAUSE_AFTER_LAND) * 100}vh` }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
+      <motion.div
+        style={{ backgroundColor: bgColor }}
+        className="sticky top-0 h-screen overflow-hidden flex flex-col"
+      >
         <div className="shrink-0 pt-20 pb-6 px-6 max-w-7xl mx-auto w-full">
           <SectionHeading
             kicker="Produkte"
@@ -94,19 +120,18 @@ function ProductsPinTrack() {
         </div>
 
         <TooltipProvider delayDuration={100}>
-          <div className="flex-1 flex items-center min-h-0">
-            <motion.div style={{ x }} className="flex will-change-transform">
-              {products.map((product) => (
-                <div
+          <div className="flex-1 flex items-stretch justify-center min-h-0 px-4 py-4 overflow-hidden">
+            <div className="flex flex-row items-stretch gap-3 xl:gap-4 w-full max-w-[1400px] max-h-[720px]">
+              {products.map((product, i) => (
+                <ProductSlotCard
                   key={product.id}
-                  className="w-screen shrink-0 flex items-center justify-center px-6"
-                >
-                  <div className="w-full max-w-[440px] h-full max-h-[60vh]">
-                    <ProductCard product={product} />
-                  </div>
-                </div>
+                  product={product}
+                  index={i}
+                  total={n}
+                  scrollYProgress={cardsProgress}
+                />
               ))}
-            </motion.div>
+            </div>
           </div>
         </TooltipProvider>
 
@@ -114,15 +139,51 @@ function ProductsPinTrack() {
           <div className="flex items-center gap-4">
             <div className="flex-1 h-[2px] bg-black/10 relative overflow-hidden">
               <motion.div
-                style={{ scaleX: scrollYProgress, transformOrigin: '0 0' }}
+                style={{ scaleX: cardsProgress, transformOrigin: '0 0' }}
                 className="absolute inset-0 bg-black"
               />
             </div>
-            <ProductsCounter progress={scrollYProgress} total={n} />
+            <ProductsCounter progress={cardsProgress} total={n} />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
+  );
+}
+
+function ProductSlotCard({
+  product,
+  index,
+  total,
+  scrollYProgress,
+}: {
+  product: Product;
+  index: number;
+  total: number;
+  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+}) {
+  const start = index / total;
+  const end = (index + 1) / total;
+  const cardX = useTransform(
+    scrollYProgress,
+    [start, end],
+    ['100vw', '0vw'],
+    { clamp: true },
+  );
+  const cardFilter = useTransform(
+    scrollYProgress,
+    [start, end],
+    ['grayscale(1) brightness(0.96)', 'grayscale(0) brightness(1)'],
+    { clamp: true },
+  );
+
+  return (
+    <motion.div
+      style={{ x: cardX, filter: cardFilter, willChange: 'transform, filter' }}
+      className="flex-1 min-w-0 max-w-[340px] flex"
+    >
+      <ProductCard product={product} />
+    </motion.div>
   );
 }
 
@@ -147,56 +208,66 @@ function ProductsCounter({
 function ProductCard({ product }: { product: Product }) {
   const Icon = ICONS[product.id] ?? Zap;
   const isHighlight = !!product.highlight;
+  const { theme } = product;
 
   const scrollToB2B = () => scrollToId('#b2b');
 
   return (
     <Card
-      className={`relative h-full p-0 flex flex-col ${
+      className={`relative h-full p-0 flex flex-col transition-colors ${
         isHighlight
           ? 'border-black shadow-[0_24px_60px_-24px_rgba(0,0,0,0.25)]'
-          : 'border-black/10 hover:border-black/30 transition-colors'
+          : ''
       }`}
+      style={isHighlight ? undefined : { borderColor: theme.accentMuted }}
     >
       {product.badge && (
-        <div className="absolute -top-3 left-8 z-10">
-          <Badge variant="default">{product.badge}</Badge>
+        <div className="absolute -top-3 left-7 z-10">
+          <Badge
+            variant="default"
+            style={{ backgroundColor: theme.accent, borderColor: theme.accent }}
+          >
+            {product.badge}
+          </Badge>
         </div>
       )}
 
-      <div className="px-8 pt-8 w-full">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/5 mb-6">
-          <Icon className="h-5 w-5 text-black" strokeWidth={1.5} />
+      <div className="px-7 pt-7 w-full">
+        <div
+          className="flex h-10 w-10 items-center justify-center rounded-full mb-4"
+          style={{ backgroundColor: theme.accentLight }}
+        >
+          <Icon className="h-4 w-4" strokeWidth={1.5} style={{ color: theme.accent }} />
         </div>
 
-        <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#6F6F6F] mb-3 block">
+        <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#6F6F6F] mb-2 block">
           {product.tagline}
         </span>
         <h3
-          className={`font-display text-black mb-3 ${
-            isHighlight ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl'
+          className={`font-display text-black mb-2 ${
+            isHighlight ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'
           }`}
           style={{ letterSpacing: '-0.5px', lineHeight: 1 }}
         >
           {product.name}
         </h3>
-        <p className="font-sans text-base text-black font-medium tabular-nums mb-4">
+        <p className="font-sans text-sm text-black font-medium tabular-nums mb-3">
           {product.priceRange}
         </p>
-        <p className="font-sans text-sm text-[#6F6F6F] leading-relaxed mb-6">
+        <p className="font-sans text-[13px] text-[#6F6F6F] leading-relaxed mb-4">
           {product.description}
         </p>
 
         <Separator />
       </div>
 
-      <div className="px-8 pt-6 pb-2 w-full flex-1 min-h-0 overflow-y-auto">
-        <ul className="flex flex-col gap-2">
+      <div className="px-7 pt-4 pb-2 w-full flex-1">
+        <ul className="flex flex-col gap-1.5">
           {product.items.map((item) => {
             const tooltip = productTooltips[item];
             return (
-              <li key={item} className="flex items-start gap-2 text-sm text-black/80">
-                <Plus className="h-4 w-4 shrink-0 mt-0.5 text-black/40" strokeWidth={1.5} />
+              <li key={item} className="flex items-start gap-2 text-[13px] text-black/80">
+                <Plus className="h-3.5 w-3.5 shrink-0 mt-0.5 text-black/40" strokeWidth={1.5} />
                 <span className="flex items-center gap-1.5">
                   {item}
                   {tooltip && (
@@ -220,7 +291,7 @@ function ProductCard({ product }: { product: Product }) {
         </ul>
       </div>
 
-      <div className="px-8 pb-8 pt-4 w-full">
+      <div className="px-7 pb-6 pt-3 w-full">
         <Button
           variant={isHighlight ? 'default' : 'outline'}
           className="w-full group"
